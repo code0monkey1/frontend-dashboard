@@ -1,8 +1,34 @@
-import { Button, Card, Checkbox, Input, Layout, Space,Form, Typography } from "antd"
+import { Button, Card, Checkbox, Input, Layout, Space,Form, Typography, Alert } from "antd"
 import { LockFilled ,LockOutlined, UserOutlined} from '@ant-design/icons';
 import Logo from "../../components/icons/Logo";
+import { useMutation } from "@tanstack/react-query";
+import type { LoginCreadentials } from "../../types";
+import { loginUser } from "../../http/api";
+import { useEffect, useState } from "react";
+
 
 function Login() {
+
+  const [hasError,setHasError] = useState(false)
+
+    // Mutations
+  const {mutate,isError,isPending,error} = useMutation({
+    mutationKey:["login"],
+    mutationFn: loginUser,
+    onSuccess: (value:unknown) => {
+      // Invalidate and refetch
+      console.log("The value obtained from submitting",JSON.stringify(value))
+    },
+  })
+
+  useEffect(()=>{
+      if(isError){
+           setHasError(true)
+           setTimeout(()=>{
+            setHasError(false)
+           },5000)
+      }
+  },[mutate,isError])
 
   return (
    <>
@@ -21,12 +47,12 @@ function Login() {
               name="basic"
               style={{ width: '100%' }}
               initialValues={{ remember: true }}
-              //onFinish={onFinish}
-              //onFinishFailed={onFinishFailed}
+              onFinish={(formValues:LoginCreadentials) => mutate(formValues)}
               autoComplete="off"
             >
+               {hasError && <Alert style={{marginBottom:"0.5rem"}} type="error" message={error?.message}/> }
         <Form.Item
-          name="username"
+          name="email"
         
           rules={[{ required: true, message: 'Please input your username!' },  
             { type:"email" , message:'The username should be an email'}]}
@@ -47,13 +73,14 @@ function Login() {
         <Form.Item name="remember" valuePropName="checked" noStyle>
           
           <Checkbox>Remember me</Checkbox>
-
        
         </Form.Item>
-         <Typography.Link href="/"  > Forgot Password </Typography.Link>
 
+         <Typography.Link href="/"  > Forgot Password </Typography.Link>
+      
           <Form.Item style={{marginTop: 24, width: "100%"}}>
-            <Button type="primary" htmlType="submit" size="large" style={{width: "100%"}}>
+    
+            <Button loading={isPending} type="primary" htmlType="submit" size="large" style={{width: "100%"}}>
               Submit
             </Button>
           </Form.Item>
