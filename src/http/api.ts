@@ -8,3 +8,18 @@ export const loginUser=async(loginCredentials: LoginCreadentials)=>{
   
   return data
 }
+
+
+export const getSelf=async()=>{
+    
+  const {data} = await api.get('/auth/self')
+  
+  return data
+}
+
+export const logoutFromServer=async()=>{
+
+    await api.post('/auth/logout')
+
+}
+

@@ -1,23 +1,49 @@
 import { Button, Card, Checkbox, Input, Layout, Space,Form, Typography, Alert } from "antd"
 import { LockFilled ,LockOutlined, UserOutlined} from '@ant-design/icons';
 import Logo from "../../components/icons/Logo";
-import { useMutation } from "@tanstack/react-query";
-import type { LoginCreadentials } from "../../types";
-import { loginUser } from "../../http/api";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { getSelf, loginUser, logoutFromServer } from '../../http/api';
 import { useEffect, useState } from "react";
-
+import { useStore } from "../../store";
+import { usePermission } from "../../hooks";
+import type { LoginCreadentials } from "../../types";
 
 function Login() {
 
   const [hasError,setHasError] = useState(false)
+  const {hasPermission} = usePermission()
+  const {setUser,logout} = useStore()
 
-    // Mutations
-  const {mutate,isError,isPending,error} = useMutation({
+  const {refetch:refetchSelf} = useQuery({
+    queryKey:["self"],
+    queryFn:getSelf,
+    enabled:false,
+  })
+
+  // Mutations
+  const {mutate:logoutUser} = useMutation({
+    mutationKey:["logout"],
+    mutationFn:logoutFromServer,
+    onSuccess:async()=>{
+       logout()
+    }
+  })
+
+  const {mutate:submitUserInfo,isError,isPending,error} = useMutation({
     mutationKey:["login"],
     mutationFn: loginUser,
-    onSuccess: (value:unknown) => {
-      // Invalidate and refetch
-      console.log("The value obtained from submitting",JSON.stringify(value))
+    onSuccess: async() => {
+
+      const self = await refetchSelf()
+      const {role} = self.data
+
+      if(!hasPermission(role)){
+        logoutUser()
+        return;
+      }
+
+      setUser(self.data)
+     
     },
   })
 
@@ -28,12 +54,11 @@ function Login() {
             setHasError(false)
            },5000)
       }
-  },[mutate,isError])
+  },[submitUserInfo,isError])
 
   return (
    <>
     <Layout style={{height:"100vh" ,width:"100vw" ,display:"grid",placeItems:"center"}}>
-
       <Space size='small' direction="vertical">
         <Layout.Content style={{ display:"flex",justifyContent:"center",alignItems:"center"}}>
          <Logo/>
@@ -47,7 +72,7 @@ function Login() {
               name="basic"
               style={{ width: '100%' }}
               initialValues={{ remember: true }}
-              onFinish={(formValues:LoginCreadentials) => mutate(formValues)}
+              onFinish={(formValues:LoginCreadentials) => submitUserInfo(formValues)}
               autoComplete="off"
             >
                {hasError && <Alert style={{marginBottom:"0.5rem"}} type="error" message={error?.message}/> }
