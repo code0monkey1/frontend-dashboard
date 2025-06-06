@@ -1,25 +1,24 @@
-import { api } from './client'
 
-import type { LoginCreadentials } from '../types'
+import type { LoginCreadentials } from "../types";
+import { api } from "./client";
 
-export const loginUser=async(loginCredentials: LoginCreadentials)=>{
-    
-  const {data} = await api.post('/auth/login',loginCredentials)
-  
-  return data
-}
+export const loginUser = async (credentials: LoginCreadentials) => {
+  const response = await api.post("/auth/login", credentials);
+  return response.data;
+};
 
+export const getSelf = async () => {
+  const response = await api.get("/auth/self");
+  return response.data;
+};
 
-export const getSelf=async()=>{
-    
-  const {data} = await api.get('/auth/self')
-  
-  return data
-}
+export const logoutFromServer = async () => {
+  const response = await api.post("/auth/logout");
+  return response.data;
+};
 
-export const logoutFromServer=async()=>{
-
-    await api.post('/auth/logout')
-
-}
+export const refreshToken = async () => {
+  const response = await api.post("/auth/refresh");
+  return response.data;
+};
 
