@@ -4,7 +4,7 @@ function App() {
 
   return (
     <>
-     <body style={{fontSize:'50px', justifyContent: 'center'}}>Home Page</body>
+     <h2 style={{textAlign:"center",width:"100vw"}}>Home Page</h2>
     </>
   )
 }
