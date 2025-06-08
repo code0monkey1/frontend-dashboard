@@ -15,7 +15,7 @@ type Store = {
   logout: () => void
 }
 
-export const useStore = create<Store>()(devtools((set) => ({
+export const useAuthStore = create<Store>()(devtools((set) => ({
   user:null,
   setUser: (user: User) => set({user}),
   logout: () => set({user: null})

@@ -2,12 +2,12 @@ import { useQuery } from "@tanstack/react-query"
 import { Outlet } from "react-router-dom"
 import { getSelf } from "../http/api"
 import { useEffect } from "react"
-import { useStore } from '../store';
+import { useAuthStore } from '../store';
 import { AxiosError } from "axios";
 
 function Root() {
      
-    const {setUser}  = useStore()
+    const {setUser}  = useAuthStore()
 
     // get the self info, if cookies are present
     const {data,isLoading} = useQuery({

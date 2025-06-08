@@ -4,6 +4,7 @@ import NoAuth from "./components/NoAuth";
 import Auth from "./components/Auth";
 import DashBoard from "./components/DashBoard";
 import Root from "./components/Root";
+import Categories from "./pages/Categories";
 
 export  const router = createBrowserRouter([
 
@@ -18,6 +19,10 @@ export  const router = createBrowserRouter([
                         {
                             path: '',
                             element: <DashBoard />
+                        },
+                         {
+                            path: 'categories',
+                            element: <Categories />
                         }
                      ]
                  },

@@ -1,9 +1,9 @@
 import { Navigate, Outlet } from "react-router-dom"
-import { useStore } from "../store"
+import { useAuthStore } from "../store"
 
 function NoAuth() {
   
- const {user} = useStore()
+ const {user} = useAuthStore()
 
   if(user){
       return <Navigate to={'/'}  replace={true} /> // if user is present, sent the user to the dashboard 

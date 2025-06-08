@@ -4,15 +4,15 @@ import Logo from "../../components/icons/Logo";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getSelf, loginUser, logoutFromServer } from '../../http/api';
 import { useEffect, useState } from "react";
-import { useStore } from "../../store";
-import { usePermission } from "../../hooks";
+import { useAuthStore } from "../../store";
+import { usePermission } from "../../hooks/usePermission";
 import type { LoginCreadentials } from "../../types";
 
 function Login() {
 
   const [hasError,setHasError] = useState(false)
   const {hasPermission} = usePermission()
-  const {setUser,logout} = useStore()
+  const {setUser,logout} = useAuthStore()
 
   const {refetch:refetchSelf} = useQuery({
     queryKey:["self"],

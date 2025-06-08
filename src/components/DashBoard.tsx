@@ -1,8 +1,8 @@
-import { useStore } from "../store"
+import { useAuthStore } from "../store"
 
 function DashBoard() {
   
-  const {user} = useStore()
+  const {user} = useAuthStore()
 
   return (
     <>

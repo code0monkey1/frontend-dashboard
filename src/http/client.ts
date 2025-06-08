@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useStore } from '../store'
+import { useAuthStore } from '../store'
 
 export const api = axios.create({
     baseURL:import.meta.env.VITE_BACKEND_API_URL,
@@ -40,7 +40,7 @@ api.interceptors.response.use((response)=> response,async(error)=>{
             }catch(err){
                 console.error("Error getting refresh token",err)
                 // empty the zustand store
-                useStore.getState().logout() // you need to logout from the client side 
+                useAuthStore.getState().logout() // you need to logout from the client side 
                 return Promise.reject(err) // you need to return a rejected promise , so that the error handler can handler it
             }
            
