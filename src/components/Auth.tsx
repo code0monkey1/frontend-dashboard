@@ -8,6 +8,7 @@ import PIzza from "./icons/PIzza";
 import Home from "./icons/Home";
 import CategoryIcon from "./icons/CategoryIcon";
 import { useLogout } from "../hooks/useLogout";
+import { ROLES } from "../types";
 
 
 const { Header, Content, Sider } = Layout;
@@ -93,7 +94,7 @@ function Auth() {
             
                 <Flex>
 
-                <Badge text="Global" showZero color="#52c41a" />
+                <Badge size="small" text={ user.role===ROLES.ADMIN? "Admin":`${user.tenant?.name} , ${user.tenant?.address}`} showZero color="#52c41a" />
 
                 </Flex>
            
