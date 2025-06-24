@@ -4,12 +4,12 @@ import {  Layout,Menu,theme,Flex, Badge, Avatar, Dropdown, Space } from "antd"
 import Icon, { BellOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import Logo from './icons/Logo';
-import PIzza from "./icons/PIzza";
+import Pizza from "./icons/PIzza";
 import Home from "./icons/Home";
 import CategoryIcon from "./icons/CategoryIcon";
 import { useLogout } from "../hooks/useLogout";
 import { ROLES } from "../types";
-
+import UserIcon from "./icons/UserIcon";
 
 const { Header, Content, Sider } = Layout;
 
@@ -36,12 +36,17 @@ function Auth() {
        {
         key:'/orders',
         label:<NavLink to={'/categories'}>Orders</NavLink>,
-        icon:<Icon component={PIzza} />
+        icon:<Icon component={Pizza} />
       },
         {
         key:'/categories',
         label:<NavLink to={'/categories'}>Categories</NavLink>,
         icon:<Icon component={CategoryIcon} />
+      },
+         {
+        key:'/users',
+        label:<NavLink to={'/users'}>Users</NavLink>,
+        icon:<Icon component={UserIcon} />
       },
 
     ]
@@ -114,6 +119,7 @@ function Auth() {
               minHeight: 280
             }}
           >
+            
             <Outlet/>
           </Content>
         </Layout>

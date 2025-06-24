@@ -1,5 +1,5 @@
 
-function PIzza() {
+function Pizza() {
   return (
     <div>
         <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"   width="20"
@@ -15,4 +15,4 @@ function PIzza() {
   )
 }
 
-export default PIzza
+export default Pizza
