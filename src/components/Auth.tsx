@@ -60,6 +60,7 @@ function Auth() {
            
     }
 
+    const menuItems = getMenuItems(user.role)
 
 
     const items = [
@@ -101,7 +102,7 @@ function Auth() {
             mode="inline"
             defaultSelectedKeys={['/']} 
             style={{ height: '100%', borderRight: 0 }}
-            items={getMenuItems(user.role)} 
+            items={menuItems} 
           />
         </Sider>
         <Layout>
