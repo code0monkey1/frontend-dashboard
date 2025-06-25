@@ -8,7 +8,7 @@ import Pizza from "./icons/PIzza";
 import Home from "./icons/Home";
 import CategoryIcon from "./icons/CategoryIcon";
 import { useLogout } from "../hooks/useLogout";
-import { ROLES } from "../types";
+import { ROLES } from '../types';
 import UserIcon from "./icons/UserIcon";
 
 const { Header, Content, Sider } = Layout;
@@ -27,29 +27,40 @@ function Auth() {
         return <Navigate to={"/auth/login"} replace={true} /> // replace true ensures that it does not go back to the previous route 
     }
 
-    const menuItems =[
-      {
-        key:'/',
-        label:<NavLink to={'/'}>Home</NavLink>,
-        icon:<Icon component={Home} />
-      },
-       {
-        key:'/orders',
-        label:<NavLink to={'/categories'}>Orders</NavLink>,
-        icon:<Icon component={Pizza} />
-      },
-        {
-        key:'/categories',
-        label:<NavLink to={'/categories'}>Categories</NavLink>,
-        icon:<Icon component={CategoryIcon} />
-      },
-         {
-        key:'/users',
-        label:<NavLink to={'/users'}>Users</NavLink>,
-        icon:<Icon component={UserIcon} />
-      },
+    const getMenuItems = (role:string)=>{
+        const baseItems =[
+              {
+                key:'/',
+                label:<NavLink to={'/'}>Home</NavLink>,
+                icon:<Icon component={Home} />
+              },
+              {
+                key:'/orders',
+                label:<NavLink to={'/categories'}>Orders</NavLink>,
+                icon:<Icon component={Pizza} />
+              },
+                {
+                key:'/categories',
+                label:<NavLink to={'/categories'}>Categories</NavLink>,
+                icon:<Icon component={CategoryIcon} />
+              },
+            ]
 
-    ]
+          if(role===ROLES.ADMIN){
+
+              return [...baseItems, 
+                            {
+                              key:'/users',
+                              label:<NavLink to={'/users'}>Users</NavLink>,
+                              icon:<Icon component={UserIcon} />
+                            }]
+          }
+
+          return baseItems;
+           
+    }
+
+
 
     const items = [
 
@@ -90,7 +101,7 @@ function Auth() {
             mode="inline"
             defaultSelectedKeys={['/']} 
             style={{ height: '100%', borderRight: 0 }}
-            items={menuItems} 
+            items={getMenuItems(user.role)} 
           />
         </Sider>
         <Layout>

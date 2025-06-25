@@ -11,8 +11,10 @@ export const ROLES = {
 } as const;
 
 
-export  type User={
+export type User={
                 firstName:string,
                 lastName:string,
-                id:number
+                id:number,
+                email: string;
+                role: string;
             }

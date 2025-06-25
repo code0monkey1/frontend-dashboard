@@ -25,6 +25,7 @@ export  const router = createBrowserRouter([
                             path: 'categories',
                             element: <Categories />
                         },
+            
                          {
                             path: 'users',
                             element: <Users />
