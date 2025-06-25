@@ -9,3 +9,10 @@ export const ROLES = {
     ADMIN: 'admin',
     MANAGER: 'manager',
 } as const;
+
+
+export  type User={
+                firstName:string,
+                lastName:string,
+                id:number
+            }
